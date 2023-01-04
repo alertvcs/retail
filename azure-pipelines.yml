@@ -40,4 +40,4 @@ steps:
     repository: 'alertvcs/retail'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: 'latest
+    tags: 'latest'
