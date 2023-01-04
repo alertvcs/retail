@@ -31,15 +31,27 @@ steps:
   displayName: 'Install Node.js'
 
 
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'sonarqube'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'DevSecOps'
+    cliSources: '.'
 
 
-
-- task: SonarQubeAnalyze@5
 
 - script: |
     npm install
     npm run build
   displayName: 'npm install and build'
+
+- task: SonarQubeAnalyze@5
+
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
+
 - task: Docker@2
   inputs:
     containerRegistry: 'dockerhub'
@@ -47,7 +59,3 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: 'latest'
-
-- task: SonarQubePublish@5
-  inputs:
-    pollingTimeoutSec: '300'
