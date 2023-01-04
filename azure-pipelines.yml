@@ -4,7 +4,22 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  branches:
+    exclude:
+      - '*'
+  tags:
+    include:
+    - v1*
+    exclude:
+    - v2.0
+pr:
+  branches:
+    include:
+      - refs/tags/v1*
+    exclude:
+      - 'refs/tags/v2.0'
+      - '*'
+
 
 pool:
   vmImage: ubuntu-latest
@@ -25,4 +40,4 @@ steps:
     repository: 'alertvcs/retail'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: 'latest'
+    tags: 'latest
